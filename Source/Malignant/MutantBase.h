@@ -7,8 +7,8 @@
 #include "Components/StaticMeshComponent.h"
 #include "MutantBase.generated.h"
 
-UENUM()
-enum EMutantState {Human = 0, Tall, Normal, Short};
+UENUM(BlueprintType)
+enum EMutantState { Human = 0, Tall, Normal, Short };
 
 USTRUCT()
 struct FMutantStats
