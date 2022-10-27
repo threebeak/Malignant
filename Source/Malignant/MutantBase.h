@@ -10,17 +10,23 @@
 UENUM(BlueprintType)
 enum EMutantState { Human = 0, Tall, Normal, Short };
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct FMutantStats
 {
 	GENERATED_BODY()
 
-	float Height = 0;
-	float Radius = 0;
-	float Health = 0;
-	float Defense = 0;
-	float MovementSpeed = 0;
-	float AttackSpeed = 0;
+	UPROPERTY(EditAnywhere)
+		float Height = 0;
+	UPROPERTY(EditAnywhere)
+		float Radius = 0;
+	UPROPERTY(EditAnywhere)
+		float Health = 0;
+	UPROPERTY(EditAnywhere)
+		float Defense = 0;
+	UPROPERTY(EditAnywhere)
+		float MovementSpeed = 0;
+	UPROPERTY(EditAnywhere)
+		float AttackSpeed = 0;
 };
 
 UCLASS()
@@ -29,6 +35,7 @@ class MALIGNANT_API AMutantBase : public AActor
 	GENERATED_BODY()
 
 private:
+
 
 	FMutantStats BaseStats;
 	
@@ -55,10 +62,11 @@ public:
 	virtual void HeavyAttack();
 	virtual void Ability();
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 		UStaticMesh* GetMutantMesh();
 
 	//Set stats for Mutant
-	FMutantStats GetBaseStats();
+	UFUNCTION(BlueprintCallable)
+		FMutantStats GetBaseStats();
 
 };

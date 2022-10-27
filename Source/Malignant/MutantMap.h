@@ -3,17 +3,29 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "UObject/NoExportTypes.h"
 #include "MutantBase.h"
+#include "MutantMap.generated.h"
 
 /**
  * 
  */
-class MALIGNANT_API MutantMap
+UCLASS(BlueprintType)
+class MALIGNANT_API UMutantMap : public UObject
 {
-public:
-	MutantMap();
-	~MutantMap();
+	GENERATED_BODY()
 
-	UPROPERTY(BlueprintVisible)
-		TMap<EMutantState, AMutantBase*> MMutants;
+public:
+
+	UMutantMap();
+
+	UPROPERTY(BlueprintReadOnly)
+		TMap<TEnumAsByte<EMutantState>, AMutantBase*> MMutants;
+
+	UPROPERTY()
+		AMutantBase* Mutant1;
+	UPROPERTY()
+		AMutantBase* Mutant2;
+	UPROPERTY()
+		AMutantBase* Mutant3;
 };
