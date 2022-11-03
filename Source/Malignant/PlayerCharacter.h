@@ -6,18 +6,18 @@
 #include "GameFramework/Character.h"
 #include "Components/StaticMeshComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Interactable.h"
 #include "Engine/World.h"
-#include "MutantBase.h"
 #include "PlayerCharacter.generated.h"
+
+
+
 
 UCLASS()
 class MALIGNANT_API APlayerCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
-private:
-
-	FHitResult LookResult;
 
 public:
 	// Sets default values for this pawn's properties
@@ -28,17 +28,24 @@ public:
 	UPROPERTY(EditAnywhere)
 		UCameraComponent* MainCamera;
 
+		IInteractable* InteractingObject;
+
+	UPROPERTY()
+		UUserWidget* DisplayWidget;
 
 	//Data for Line Traces
 	UPROPERTY(EditAnywhere, Category = Traces)
-		float LookDistance = 500;
+		float LookDistance = 200;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+
 	UPROPERTY()
-		AMutantBase* PlayerMutant;
+		APlayerController* PController;
+
+	FHitResult LookResult;
 
 	void Transform();
 
@@ -55,10 +62,14 @@ public:
 	void LookUp(float AxisValue);
 	void LookRight(float AxisValue);
 	void Jump();
-	void SetMutant(AMutantBase* NewMutant);
+	void Lock();
+	void Release(APlayerController* PCont);
 
-private:
+	virtual void Interact();
+
+protected:
 
 	//Will probably need to have a return value later
 	void HandleTrace();
+	void HandleDisplay(bool Visible);
 };

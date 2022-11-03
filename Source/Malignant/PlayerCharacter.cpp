@@ -3,6 +3,7 @@
 
 #include "PlayerCharacter.h"
 #include "Components/CapsuleComponent.h"
+#include "Blueprint/UserWidget.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
@@ -18,9 +19,11 @@ APlayerCharacter::APlayerCharacter()
 
 	StaticMesh->SetupAttachment(RootComponent);
 	MainCamera->SetupAttachment(RootComponent);
+	MainCamera->SetRelativeLocation({ 0.0f, 0.0f, 60.0f });
 
 	GetCharacterMovement()->SetUpdatedComponent(RootComponent);
 	bUseControllerRotationYaw = true;
+
 }
 
 // Called when the game starts or when spawned
@@ -28,20 +31,13 @@ void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	APlayerController* TempCont = Cast<APlayerController>(GetController());
+	if (TempCont)
+		PController = TempCont;
+
 	//Set distances for look trace to interact with objects
 
 
-}
-
-void APlayerCharacter::Transform()
-{
-	if (PlayerMutant)
-	{
-		GetCapsuleComponent()->SetCapsuleHalfHeight(PlayerMutant->GetBaseStats().Height / 2);
-		GetCapsuleComponent()->SetCapsuleRadius(PlayerMutant->GetBaseStats().Radius);
-		StaticMesh->SetStaticMesh(PlayerMutant->GetMutantMesh());
-		GetCharacterMovement()->MaxWalkSpeed = PlayerMutant->GetBaseStats().MovementSpeed;
-	}
 }
 
 
@@ -55,11 +51,11 @@ void APlayerCharacter::Tick(float DeltaTime)
 	FVector Start = MainCamera->GetComponentLocation();
 	FVector End = (MainCamera->GetForwardVector() * LookDistance) + Start;
 	GetWorld()->LineTraceSingleByChannel(LookResult, Start, End, ECC_Visibility);
-	DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 0.2f, 0, 5.0f);
-	if (LookResult.bBlockingHit)
-	{
-		HandleTrace();
-	}
+	//DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 0.2f, 0, 5.0f);
+
+	//Handle lookat hit result
+	HandleTrace();
+	
 
 }
 
@@ -73,6 +69,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	InputComponent->BindAxis("LookUp", this, &APlayerCharacter::LookUp);
 	InputComponent->BindAxis("LookRight", this, &APlayerCharacter::LookRight);
 	InputComponent->BindAction("Jump", IE_Pressed, this, &APlayerCharacter::Jump);
+	InputComponent->BindAction("Interact", IE_Pressed, this, &APlayerCharacter::Interact);
 
 }
 
@@ -92,6 +89,7 @@ void APlayerCharacter::MoveRight(float AxisValue)
 
 void APlayerCharacter::LookUp(float AxisValue)
 {
+
 	FRotator CurrentRotation = MainCamera->GetRelativeRotation();
 	CurrentRotation.Pitch = FMath::ClampAngle((CurrentRotation.Pitch + AxisValue), -89.0f, 89.0f);
 	MainCamera->SetRelativeRotation(CurrentRotation);
@@ -99,6 +97,7 @@ void APlayerCharacter::LookUp(float AxisValue)
 
 void APlayerCharacter::LookRight(float AxisValue)
 {
+
 	FRotator CurrentRotation = GetControlRotation();
 	CurrentRotation.Yaw += AxisValue;
 	GetController()->SetControlRotation(CurrentRotation);
@@ -113,15 +112,72 @@ void APlayerCharacter::Jump()
 	}
 }
 
-void APlayerCharacter::SetMutant(AMutantBase* NewMutant)
+//Functions for enabling and disabling player input
+void APlayerCharacter::Lock()
 {
-	if(NewMutant)
-		PlayerMutant = NewMutant;
+	if(PController)
+		DisableInput(PController);
+}
 
-	Transform();
+void APlayerCharacter::Release(APlayerController* PCont)
+{
+	EnableInput(PCont);
+}
+
+/*******************************************/
+
+
+void APlayerCharacter::Interact()
+{
+
+	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Interacting!")));
+	if (!LookResult.GetActor())
+		return;
+
+	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Actor Valid")));
+	IInteractable* IO = Cast<IInteractable>(LookResult.GetActor());
+	if (IO)
+	{
+		if (DisplayWidget)
+			DisplayWidget->RemoveFromViewport();
+		IO->Interact(this);
+		return;
+	}
+	return;
 }
 
 void APlayerCharacter::HandleTrace()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("%s"), *LookResult.GetActor()->GetName()));
+	IInteractable* IO = Cast<IInteractable>(LookResult.GetActor());
+	if (IO && InteractingObject)
+		return;
+
+	if ((InteractingObject == nullptr) && IO)
+	{
+		InteractingObject = IO;
+		HandleDisplay(true);
+		return;
+	
+	}
+	if (((IO == nullptr) && InteractingObject) || LookResult.bBlockingHit == false)
+	{
+		HandleDisplay(false);
+		InteractingObject = nullptr;
+		return;
+	}
+}
+
+void APlayerCharacter::HandleDisplay(bool Visible)
+{
+	if (Visible)
+	{
+		if (TSubclassOf<UUserWidget> Type = InteractingObject->GetWidgetType())
+		{
+			DisplayWidget = CreateWidget<UUserWidget>(PController, Type);
+			DisplayWidget->AddToViewport(0);
+		}
+		return;
+	}
+	if(DisplayWidget)
+		DisplayWidget->RemoveFromViewport();
 }

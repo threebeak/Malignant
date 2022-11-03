@@ -1,0 +1,192 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+
+#include "MixingTable.h"
+#include "Blueprint/UserWidget.h"
+
+
+// Sets default values
+AMixingTable::AMixingTable()
+{
+ 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	PrimaryActorTick.bCanEverTick = false;
+	
+	Mutants = CreateDefaultSubobject<UMutantMapComponent>(TEXT("Map"));
+	BoxCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Collision"));
+	TableCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("TableCamera"));
+
+	BottleMesh1 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Bottle 1"));
+	BottleMesh2 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Bottle 2"));
+	BottleMesh3 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Bottle 3"));
+
+	RootComponent = BoxCollision;
+	BoxCollision->SetBoxExtent({ 64,32,32 });
+	BoxCollision->SetCollisionResponseToAllChannels(ECR_Block);
+
+	TableCamera->SetupAttachment(RootComponent);
+	BottleMesh1->SetupAttachment(RootComponent);
+	BottleMesh2->SetupAttachment(RootComponent);
+	BottleMesh3->SetupAttachment(RootComponent);
+
+	TableCamera->SetRelativeRotation({ -15, -90, 0 });
+	TableCamera->SetRelativeLocation({ 0, 90, 73 });
+	BottleMesh1->SetWorldScale3D({ 0.2,0.2,0.2 });
+	BottleMesh2->SetWorldScale3D({ 0.2,0.2,0.2 });
+	BottleMesh3->SetWorldScale3D({ 0.2,0.2,0.2 });
+	BottleMesh1->SetRelativeLocation({ -50, 0, 36 });
+	BottleMesh2->SetRelativeLocation({ 0, 0, 36 });
+	BottleMesh3->SetRelativeLocation({ 50, 0, 36 });
+
+}
+
+// Called when the game starts or when spawned
+void AMixingTable::BeginPlay()
+{
+	Super::BeginPlay();
+	
+}
+
+// Called every frame
+void AMixingTable::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+}
+
+bool AMixingTable::Interact(AActor* CallingActor)
+{
+	Player = Cast<APlayerCharacter>(CallingActor);
+	if (Player == nullptr)
+		return false;
+
+
+	if (SetActionBindings(Player))
+	{
+		Player->Lock();
+		Controller->SetViewTargetWithBlend(this, 2.0f);
+	}
+	return true;
+}
+
+//Setup Input from PlayerController
+bool AMixingTable::SetActionBindings(APlayerCharacter* Character)
+{
+	Controller = Cast<APlayerController>(Character->GetController());
+	if (Controller == nullptr)
+		return false;
+
+	EnableInput(Controller);
+
+	if (!ActionsBound)
+	{
+		InputComponent->BindAction("Interact", IE_Pressed, this, &AMixingTable::Exit);
+		InputComponent->BindAction<FBottleSelect>("Bottle_1", IE_Pressed, this, &AMixingTable::BottleSelect, 1);
+		InputComponent->BindAction<FBottleSelect>("Bottle_2", IE_Pressed, this, &AMixingTable::BottleSelect, 2);
+		InputComponent->BindAction<FBottleSelect>("Bottle_3", IE_Pressed, this, &AMixingTable::BottleSelect, 3);
+		ActionsBound = true;
+	}
+
+
+	return true;
+}
+
+bool AMixingTable::ChooseMutant(AActor* CallingActor)
+{
+	int32 BottleValue = Bottle1.Value + Bottle2.Value;
+
+	//This will TEMPORARILY use the sum of bottle values because there are currently only 3 bottles
+	//Each combination of values - 2 will result in 1 2 or 3 and can be used to determine mutant state.
+	//This will have to change when more mutants are added
+
+	EMutantState State = StaticCast<EMutantState>(BottleValue - 2);
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("CHOOSE MUTANT %i"), (BottleValue - 2)));
+if (Mutants)
+	{
+
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("MAP")));
+		TSubclassOf<AMutantCharacter> NewMutant = *Mutants->GetMap().Find(State);
+
+		if (NewMutant && Player)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("CALLED")));
+			AMutantCharacter* NewCharacter = GetWorld()->SpawnActor<AMutantCharacter>(NewMutant, Player->GetActorLocation(), Player->GetActorRotation(), SpawnParams);
+			if (NewCharacter)
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("%s"), *NewCharacter->GetName().ToString()));
+				Player = NewCharacter;
+				return true;
+
+			}
+			
+		}
+		return false;
+	}
+	return false;
+}
+
+
+void AMixingTable::BottleSelect(const int32 BottleValue)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("%i"), BottleValue));
+
+	if (Bottle2.Key)
+		return;
+
+	//Temporary to show which bottles have been selected
+	switch (BottleValue)
+	{
+	case 1:
+		BottleMesh1->SetVisibility(false);
+		break;
+	case 2:
+		BottleMesh2->SetVisibility(false);
+		break;
+	case 3:
+		BottleMesh3->SetVisibility(false);
+		break;
+	}
+
+	//Track which bottles have been selected
+	if (!Bottle1.Key)
+	{
+		Bottle1.Key = true;
+		Bottle1.Value = BottleValue;
+		return;
+	}
+	Bottle2.Key = true;
+	Bottle2.Value = BottleValue;
+
+	//Try to determine mutant
+	ChooseMutant(Player);
+	Exit();
+
+	
+}
+
+TSubclassOf<UUserWidget> AMixingTable::GetWidgetType()
+{
+	return WidgetType;
+}
+
+
+void AMixingTable::Exit()
+{
+	DisableInput(Controller);
+	Controller->SetViewTargetWithBlend(Player, 1.0f);
+	GetWorldTimerManager().SetTimer(CameraHandle, this, &AMixingTable::Clear, 1.0f, false);
+	
+}
+
+void AMixingTable::Clear()
+{
+	if (!Bottle2.Key)
+	{
+		Bottle1.Key = false;
+		Bottle1.Value = 0;
+	}
+	Controller->Possess(Player);
+	Player->Release(Controller);
+
+	Player = nullptr;
+	Controller = nullptr;
+}
