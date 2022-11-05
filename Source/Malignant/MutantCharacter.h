@@ -10,9 +10,12 @@
  * 
  */
 
+//MutantCharacter ID for determining in MutantMap
 UENUM(BlueprintType)
 enum EMutantState { Human = 0, EMS_Base, EMS_Bone, EMS_FourArm };
 
+
+//This is an abstract class for all mutants to inherit from
 UCLASS()
 class MALIGNANT_API AMutantCharacter : public APlayerCharacter
 {
@@ -26,6 +29,7 @@ public:
 
 	AMutantCharacter();
 
+	//Base methods to be overridden in mutant subclasses
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 

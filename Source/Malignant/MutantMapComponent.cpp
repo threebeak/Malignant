@@ -11,6 +11,7 @@ UMutantMapComponent::UMutantMapComponent()
 	PrimaryComponentTick.bCanEverTick = false;
 	bAutoActivate = true;
 
+	//Add class references to the map
 	MutantClassMap.Add(EMS_Base, AMutantCharacter::StaticClass());
 	MutantClassMap.Add(EMS_Bone, ABoneBladeMutantCharacter::StaticClass());
 	MutantClassMap.Add(EMS_FourArm, AFourArmMutantCharacter::StaticClass());
@@ -36,6 +37,7 @@ void UMutantMapComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	// ...
 }
 
+//Accessor for MutantClassMap
 TMap<TEnumAsByte<EMutantState>, TSubclassOf<AMutantCharacter>> UMutantMapComponent::GetMap()
 {
 	return MutantClassMap;

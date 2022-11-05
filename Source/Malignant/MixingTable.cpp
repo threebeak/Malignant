@@ -30,9 +30,6 @@ AMixingTable::AMixingTable()
 
 	TableCamera->SetRelativeRotation({ -15, -90, 0 });
 	TableCamera->SetRelativeLocation({ 0, 90, 73 });
-	BottleMesh1->SetWorldScale3D({ 0.2,0.2,0.2 });
-	BottleMesh2->SetWorldScale3D({ 0.2,0.2,0.2 });
-	BottleMesh3->SetWorldScale3D({ 0.2,0.2,0.2 });
 	BottleMesh1->SetRelativeLocation({ -50, 0, 36 });
 	BottleMesh2->SetRelativeLocation({ 0, 0, 36 });
 	BottleMesh3->SetRelativeLocation({ 50, 0, 36 });
@@ -53,13 +50,14 @@ void AMixingTable::Tick(float DeltaTime)
 
 }
 
+//Check valid player and action bindings. 
 bool AMixingTable::Interact(AActor* CallingActor)
 {
 	Player = Cast<APlayerCharacter>(CallingActor);
 	if (Player == nullptr)
 		return false;
 
-
+	//Lock player and allow input
 	if (SetActionBindings(Player))
 	{
 		Player->Lock();
@@ -90,13 +88,14 @@ bool AMixingTable::SetActionBindings(APlayerCharacter* Character)
 	return true;
 }
 
+//Determine MutantCharacter class to spawn
 bool AMixingTable::ChooseMutant(AActor* CallingActor)
 {
 	int32 BottleValue = Bottle1.Value + Bottle2.Value;
 
 	//This will TEMPORARILY use the sum of bottle values because there are currently only 3 bottles
 	//Each combination of values - 2 will result in 1 2 or 3 and can be used to determine mutant state.
-	//This will have to change when more mutants are added
+	//This will have to change when more bottles and mutants are added
 
 	EMutantState State = StaticCast<EMutantState>(BottleValue - 2);
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("CHOOSE MUTANT %i"), (BottleValue - 2)));
@@ -104,11 +103,15 @@ if (Mutants)
 	{
 
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("MAP")));
+
+		//Find mutant class in map
 		TSubclassOf<AMutantCharacter> NewMutant = *Mutants->GetMap().Find(State);
 
 		if (NewMutant && Player)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("CALLED")));
+
+			//Try to spawn new mutant character
 			AMutantCharacter* NewCharacter = GetWorld()->SpawnActor<AMutantCharacter>(NewMutant, Player->GetActorLocation(), Player->GetActorRotation(), SpawnParams);
 			if (NewCharacter)
 			{
@@ -125,14 +128,16 @@ if (Mutants)
 }
 
 
+//Store bottle choices and bottle value 
 void AMixingTable::BottleSelect(const int32 BottleValue)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("%i"), BottleValue));
 
+	//If we've already selected 2 bottles, the choice has been made and this function will not execute again
 	if (Bottle2.Key)
 		return;
 
-	//Temporary to show which bottles have been selected
+	/***Temporary to show which bottles have been selected****/
 	switch (BottleValue)
 	{
 	case 1:
@@ -145,6 +150,7 @@ void AMixingTable::BottleSelect(const int32 BottleValue)
 		BottleMesh3->SetVisibility(false);
 		break;
 	}
+	/***************************************************/
 
 	//Track which bottles have been selected
 	if (!Bottle1.Key)
@@ -169,14 +175,18 @@ TSubclassOf<UUserWidget> AMixingTable::GetWidgetType()
 }
 
 
+//Temporarily cease input and switch cameras
 void AMixingTable::Exit()
 {
 	DisableInput(Controller);
 	Controller->SetViewTargetWithBlend(Player, 1.0f);
+
+	//Wait for camera change then Clear()
 	GetWorldTimerManager().SetTimer(CameraHandle, this, &AMixingTable::Clear, 1.0f, false);
 	
 }
 
+//Clear pointers and reassign controller. If bottle 2 was not selected, reset bottle 1 choice.
 void AMixingTable::Clear()
 {
 	if (!Bottle2.Key)

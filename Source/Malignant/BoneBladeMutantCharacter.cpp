@@ -23,3 +23,9 @@ void ABoneBladeMutantCharacter::SetupPlayerInputComponent(UInputComponent* Playe
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
+void ABoneBladeMutantCharacter::Interact()
+{
+	//Uses APlayerCharacter::Interact
+	Super::Interact();
+}
+

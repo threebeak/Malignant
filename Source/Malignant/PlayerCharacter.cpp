@@ -13,9 +13,9 @@ APlayerCharacter::APlayerCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 
+	//Create and setup default components
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
 	MainCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComponent"));
-
 
 	StaticMesh->SetupAttachment(RootComponent);
 	MainCamera->SetupAttachment(RootComponent);
@@ -31,12 +31,10 @@ void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	//Store player controller
 	APlayerController* TempCont = Cast<APlayerController>(GetController());
 	if (TempCont)
 		PController = TempCont;
-
-	//Set distances for look trace to interact with objects
-
 
 }
 
@@ -56,7 +54,6 @@ void APlayerCharacter::Tick(float DeltaTime)
 	//Handle lookat hit result
 	HandleTrace();
 	
-
 }
 
 // Called to bind functionality to input
@@ -74,6 +71,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 }
 
 
+//Movement Functions
 void APlayerCharacter::MoveForward(float AxisValue)
 {
 	if (GetCharacterMovement())
@@ -103,7 +101,6 @@ void APlayerCharacter::LookRight(float AxisValue)
 	GetController()->SetControlRotation(CurrentRotation);
 }
 
-//Proxy for ACharacter::Jump
 void APlayerCharacter::Jump()
 {
 	if (GetCharacterMovement())
@@ -127,14 +124,19 @@ void APlayerCharacter::Release(APlayerController* PCont)
 /*******************************************/
 
 
+//Handle Interaction with objects 
 void APlayerCharacter::Interact()
 {
 
 	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Interacting!")));
+
+	//If nothing is within LookDistance then return.
 	if (!LookResult.GetActor())
 		return;
 
 	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Actor Valid")));
+	
+	//Check to see if we can interact with an object, and if so, interact with it
 	IInteractable* IO = Cast<IInteractable>(LookResult.GetActor());
 	if (IO)
 	{
@@ -146,6 +148,7 @@ void APlayerCharacter::Interact()
 	return;
 }
 
+//If we are looking at an object that is interactable, call HandleDisplay to display the object's widget
 void APlayerCharacter::HandleTrace()
 {
 	IInteractable* IO = Cast<IInteractable>(LookResult.GetActor());
@@ -167,6 +170,7 @@ void APlayerCharacter::HandleTrace()
 	}
 }
 
+//Display or remove interacting widget from screen
 void APlayerCharacter::HandleDisplay(bool Visible)
 {
 	if (Visible)

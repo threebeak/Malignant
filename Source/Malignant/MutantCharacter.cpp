@@ -24,6 +24,7 @@ void AMutantCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 void AMutantCharacter::Interact()
 {
+	//Uses APlayerCharacter::Interact
 	Super::Interact();
 
 }
