@@ -1,2 +1,2 @@
 # Malignant
- Repo for Malignant game project
+ Repo for Malignant game project.
