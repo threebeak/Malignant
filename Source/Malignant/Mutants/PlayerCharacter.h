@@ -6,7 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Components/StaticMeshComponent.h"
 #include "Camera/CameraComponent.h"
-#include "Interactable.h"
+#include "../Interactables/Interactable.h"
 #include "Engine/World.h"
 #include "PlayerCharacter.generated.h"
 

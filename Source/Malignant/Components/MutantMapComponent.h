@@ -4,9 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "MutantCharacter.h"
-#include "BoneBladeMutantCharacter.h"
-#include "FourArmMutantCharacter.h"
+#include "../Mutants/MutantCharacter.h"
+#include "../Mutants/BoneBladeMutantCharacter.h"
+#include "../Mutants/FourArmMutantCharacter.h"
 #include "MutantMapComponent.generated.h"
 
 

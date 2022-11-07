@@ -3,10 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Interactable.h"
-#include "MutantMapComponent.h"
+#include "../Interactable.h"
+#include "../../Components/MutantMapComponent.h"
 #include "Components/BoxComponent.h"
-#include "PlayerCharacter.h"
+#include "../../Mutants/PlayerCharacter.h"
 #include "GameFramework/Actor.h"
 #include "MixingTable.generated.h"
 
