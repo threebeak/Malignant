@@ -21,11 +21,19 @@ class MALIGNANT_API AMutantCharacter : public APlayerCharacter
 {
 	GENERATED_BODY()
 
-protected:
-	FName Label = "MutantBase";
 
+
+	/* methods */
+private:
+
+
+	/* members */
+private:
+
+
+
+	/* methods */
 public:
-	
 
 	AMutantCharacter();
 
@@ -37,6 +45,28 @@ public:
 	virtual void Interact() override;
 
 	virtual FName GetName();
+
+	//Attack method
+	virtual void Attack() override;
+
+
+	/* members */
+public:
+
+
+
+	/* methods */
+protected:
+
+
+
+	/* members */
+protected:
+
+	FName Label = "MutantBase";
+
+
+	
 
 	
 };

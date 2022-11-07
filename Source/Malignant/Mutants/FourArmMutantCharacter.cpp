@@ -83,3 +83,7 @@ void AFourArmMutantCharacter::ThrowObject()
 	
 	
 }
+
+void AFourArmMutantCharacter::Attack()
+{
+}

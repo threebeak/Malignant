@@ -16,26 +16,50 @@ class MALIGNANT_API UMutantMapComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+
+
+	/* methods */
+private:
+
+
+	/* members */
+private:
+
+
+
+	/* methods */
+public:
+
 	// Sets default values for this component's properties
 	UMutantMapComponent();
 
+	/* members */
+public:
+
+
+
+	/* methods */
 protected:
+
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-	//TMap to hold mutant class references
-	UPROPERTY()
-		TMap<TEnumAsByte<EMutantState>, TSubclassOf<AMutantCharacter>> MutantClassMap;
-
-
-public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	//Accessor for MutantClassMap
 	UFUNCTION(BlueprintCallable)
-		TMap<TEnumAsByte<EMutantState>, TSubclassOf<AMutantCharacter>> GetMap();
+	TMap<TEnumAsByte<EMutantState>, TSubclassOf<AMutantCharacter>> GetMap();
+
+
+	/* members */
+protected:
+
+	//TMap to hold mutant class references
+	UPROPERTY()
+	TMap<TEnumAsByte<EMutantState>, TSubclassOf<AMutantCharacter>> MutantClassMap;
+
+
 
 		
 };

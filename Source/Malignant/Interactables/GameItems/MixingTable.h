@@ -18,54 +18,24 @@ class MALIGNANT_API AMixingTable : public AActor, public IInteractable
 {
 	GENERATED_BODY()
 
-		//Ensures that SetActionBindings will only be called the first time the object is interacted with
-		bool ActionsBound = false;
-public:	
+
+
+
+	/* methods */
+private:
+
+
+	/* members */
+private:
+
+	//Ensures that SetActionBindings will only be called the first time the object is interacted with
+	bool ActionsBound = false;
+
+	/* methods */
+public:
+
 	// Sets default values for this actor's properties
 	AMixingTable();
-
-	//Bottle choices
-	TPair<bool, int32> Bottle1 = { false, 0 };
-	TPair<bool, int32> Bottle2 = { false, 0 };
-
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-	//Values for the interacting player and corresponding controller to recieve input
-	UPROPERTY()
-		APlayerCharacter* Player;
-	UPROPERTY()
-		APlayerController* Controller;
-	
-	//Bottle meshes - YET TO BE ASSIGNED
-	UPROPERTY(EditAnywhere)
-		UStaticMeshComponent* BottleMesh1;
-	UPROPERTY(EditAnywhere)
-		UStaticMeshComponent* BottleMesh2;
-	UPROPERTY(EditAnywhere)
-		UStaticMeshComponent* BottleMesh3;
-
-public:	
-
-	//Widget to display when this object is viewed
-	UPROPERTY(EditAnywhere)
-		TSubclassOf<UUserWidget> WidgetType;
-
-	UPROPERTY(EditAnywhere)
-		UBoxComponent* BoxCollision;
-	UPROPERTY(EditAnywhere)
-		UCameraComponent* TableCamera;
-
-	//Mutant map to determine class selection from bottle choices 
-	UPROPERTY(VisibleAnywhere)
-		UMutantMapComponent* Mutants;
-
-	FActorSpawnParameters SpawnParams;
-
-	FTimerHandle CameraHandle;
-
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -86,8 +56,60 @@ public:
 	//Accessor for widget type
 	TSubclassOf<UUserWidget> GetWidgetType() override;
 
-
 	//Cease interaction with this object and clear all values such as Player and Controller
-		void Exit();
-		void Clear();
+	void Exit();
+	void Clear();
+
+
+	/* members */
+public:
+
+	//Bottle choices
+	TPair<bool, int32> Bottle1 = { false, 0 };
+	TPair<bool, int32> Bottle2 = { false, 0 };
+
+	//Widget to display when this object is viewed
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<UUserWidget> WidgetType;
+
+	UPROPERTY(EditAnywhere)
+		UBoxComponent* BoxCollision;
+
+	UPROPERTY(EditAnywhere)
+		UCameraComponent* TableCamera;
+
+	//Mutant map to determine class selection from bottle choices 
+	UPROPERTY(VisibleAnywhere)
+		UMutantMapComponent* Mutants;
+
+	FActorSpawnParameters SpawnParams;
+
+	FTimerHandle CameraHandle;
+
+	/* methods */
+protected:
+
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+
+	/* members */
+protected:
+
+
+	//Values for the interacting player and corresponding controller to recieve input
+	UPROPERTY()
+		APlayerCharacter* Player;
+	UPROPERTY()
+		APlayerController* Controller;
+
+	//Bottle meshes - YET TO BE ASSIGNED
+	UPROPERTY(EditAnywhere)
+		UStaticMeshComponent* BottleMesh1;
+	UPROPERTY(EditAnywhere)
+		UStaticMeshComponent* BottleMesh2;
+	UPROPERTY(EditAnywhere)
+		UStaticMeshComponent* BottleMesh3;
+
+	
 };

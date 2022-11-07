@@ -33,3 +33,7 @@ FName AMutantCharacter::GetName()
 {
 	return Label;
 }
+
+void AMutantCharacter::Attack()
+{
+}

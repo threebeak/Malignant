@@ -14,17 +14,20 @@ UCLASS()
 class MALIGNANT_API AFourArmMutantCharacter : public AMutantCharacter
 {
 	GENERATED_BODY()
+
+
+
+	/* methods */
+private:
+
+
+	/* members */
+private:
+
+
+
+	/* methods */
 public:
-
-	UPROPERTY(EditAnywhere)
-		UPhysicsHandleComponent* PhysicsHandle;
-
-	//How hard to throw objects
-	UPROPERTY(EditAnywhere)
-		float ThrowStrength = 3000;
-
-	//Trace result when attempting to grab object
-	FHitResult GrabHit;
 
 	AFourArmMutantCharacter();
 
@@ -45,4 +48,37 @@ public:
 
 	//Throw held physics object
 	void ThrowObject();
+
+	//Attack method
+	virtual void Attack() override;
+
+
+	/* members */
+public:
+
+
+	UPROPERTY(EditAnywhere)
+		UPhysicsHandleComponent* PhysicsHandle;
+
+	//How hard to throw objects
+	UPROPERTY(EditAnywhere)
+		float ThrowStrength = 3000;
+
+	//Trace result when attempting to grab object
+	FHitResult GrabHit;
+
+
+
+	/* methods */
+protected:
+
+
+
+	/* members */
+protected:
+
+
+
+
+	
 };

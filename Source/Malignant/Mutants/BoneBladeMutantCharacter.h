@@ -14,8 +14,17 @@ class MALIGNANT_API ABoneBladeMutantCharacter : public AMutantCharacter
 {
 	GENERATED_BODY()
 
-public:
+	/* methods */
+private:
 
+
+	/* members */
+private:
+
+
+
+	/* methods */
+public:
 
 	ABoneBladeMutantCharacter();
 
@@ -24,4 +33,21 @@ public:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void Interact() override;
+
+	/* members */
+public:
+
+
+
+	/* methods */
+protected:
+
+
+
+	/* members */
+protected:
+
+
+
+	
 };

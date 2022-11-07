@@ -13,5 +13,45 @@ UCLASS()
 class MALIGNANT_API AFireBreathingMutantCharacter : public AMutantCharacter
 {
 	GENERATED_BODY()
-	
+
+
+
+	/* methods */
+private:
+
+
+	/* members */
+private:
+
+
+
+	/* methods */
+public:
+
+
+	/* members */
+public:
+
+
+
+	/* methods */
+protected:
+
+
+
+	/* members */
+protected:
+
+
+
 };
+
+
+
+/*
+public:
+
+protected:
+
+	//Attack method
+	virtual void Attack() override;*/

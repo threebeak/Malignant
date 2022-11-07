@@ -38,6 +38,11 @@ void APlayerCharacter::BeginPlay()
 
 }
 
+void APlayerCharacter::Attack()
+{
+}
+
+
 
 
 // Called every frame
