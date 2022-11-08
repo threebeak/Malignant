@@ -6,6 +6,7 @@
 #include "Components/BoxComponent.h"
 #include "../../Components/MutantMapComponent.h"
 #include "../../Mutants/PlayerCharacter.h"
+#include "../../Mutants/MutantCharacter.h"
 
 
 

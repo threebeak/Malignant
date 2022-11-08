@@ -9,7 +9,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
-APlayerCharacter::APlayerCharacter()
+APlayerCharacter::APlayerCharacter():
+	bOverlappingTable(false)
 {
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -62,6 +63,12 @@ void APlayerCharacter::Tick(float DeltaTime)
 
 		//Handle lookat hit result
 		HandleTrace();
+		//HandleDisplay(true);
+
+	}
+	else
+	{
+		//HandleDisplay(false);
 	}
 
 	

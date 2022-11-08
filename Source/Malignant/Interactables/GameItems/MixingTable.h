@@ -88,8 +88,10 @@ protected:
 	/* methods */
 private:
 
-
+	UFUNCTION()
 	void BeginOverlapMixingTable(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	
+	UFUNCTION()
 	void EndOverlapMixingTable(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 	/* members */
 private:
