@@ -18,20 +18,16 @@ class MALIGNANT_API UMutantMapComponent : public UActorComponent
 
 
 
-	/* methods */
-private:
-
-
-	/* members */
-private:
-
-
 
 	/* methods */
 public:
 
 	// Sets default values for this component's properties
 	UMutantMapComponent();
+
+	//Accessor for MutantClassMap
+	UFUNCTION(BlueprintCallable)
+		TMap<TEnumAsByte<EMutantState>, TSubclassOf<AMutantCharacter>> GetMap();
 
 	/* members */
 public:
@@ -47,10 +43,6 @@ protected:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	//Accessor for MutantClassMap
-	UFUNCTION(BlueprintCallable)
-	TMap<TEnumAsByte<EMutantState>, TSubclassOf<AMutantCharacter>> GetMap();
-
 
 	/* members */
 protected:
@@ -58,6 +50,14 @@ protected:
 	//TMap to hold mutant class references
 	UPROPERTY()
 	TMap<TEnumAsByte<EMutantState>, TSubclassOf<AMutantCharacter>> MutantClassMap;
+
+
+	/* methods */
+private:
+
+
+	/* members */
+private:
 
 
 

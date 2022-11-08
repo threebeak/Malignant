@@ -22,16 +22,6 @@ class MALIGNANT_API AMutantCharacter : public APlayerCharacter
 	GENERATED_BODY()
 
 
-
-	/* methods */
-private:
-
-
-	/* members */
-private:
-
-
-
 	/* methods */
 public:
 
@@ -64,6 +54,15 @@ protected:
 protected:
 
 	FName Label = "MutantBase";
+
+
+	/* methods */
+private:
+
+
+	/* members */
+private:
+
 
 
 	

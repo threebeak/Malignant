@@ -20,17 +20,6 @@ class MALIGNANT_API AMixingTable : public AActor, public IInteractable
 
 
 
-
-	/* methods */
-private:
-
-
-	/* members */
-private:
-
-	//Ensures that SetActionBindings will only be called the first time the object is interacted with
-	bool ActionsBound = false;
-
 	/* methods */
 public:
 
@@ -110,6 +99,17 @@ protected:
 		UStaticMeshComponent* BottleMesh2;
 	UPROPERTY(EditAnywhere)
 		UStaticMeshComponent* BottleMesh3;
+
+
+	/* methods */
+private:
+
+
+	/* members */
+private:
+
+	//Ensures that SetActionBindings will only be called the first time the object is interacted with
+	bool ActionsBound = false;
 
 	
 };

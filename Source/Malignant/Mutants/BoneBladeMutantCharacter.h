@@ -14,13 +14,6 @@ class MALIGNANT_API ABoneBladeMutantCharacter : public AMutantCharacter
 {
 	GENERATED_BODY()
 
-	/* methods */
-private:
-
-
-	/* members */
-private:
-
 
 
 	/* methods */
@@ -46,6 +39,14 @@ protected:
 
 	/* members */
 protected:
+
+
+	/* methods */
+private:
+
+
+	/* members */
+private:
 
 
 

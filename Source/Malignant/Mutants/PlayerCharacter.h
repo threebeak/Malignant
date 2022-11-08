@@ -20,15 +20,6 @@ class MALIGNANT_API APlayerCharacter : public ACharacter
 
 
 	/* methods */
-private:
-
-
-	/* members */
-private:
-
-
-
-	/* methods */
 public:
 
 	// Sets default values for this pawn's properties
@@ -99,6 +90,16 @@ protected:
 
 	//Result from line trace
 	FHitResult LookResult;
+
+
+	/* methods */
+private:
+
+
+	/* members */
+private:
+
+
 
 
 };

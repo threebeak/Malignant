@@ -3,20 +3,19 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "../Mutants/MutantCharacter.h"
-#include "FireBreathingMutantCharacter.generated.h"
+#include "MutantCharacter.h"
+#include "BruteMutantCharacter.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MALIGNANT_API AFireBreathingMutantCharacter : public AMutantCharacter
+class MALIGNANT_API ABruteMutantCharacter : public AMutantCharacter
 {
 	GENERATED_BODY()
 
 
-
-	/* methods */
+		/* methods */
 public:
 
 
@@ -40,17 +39,5 @@ private:
 
 	/* members */
 private:
-
-
-
+	
 };
-
-
-
-/*
-public:
-
-protected:
-
-	//Attack method
-	virtual void Attack() override;*/

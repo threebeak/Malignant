@@ -17,14 +17,6 @@ class MALIGNANT_API AFourArmMutantCharacter : public AMutantCharacter
 
 
 
-	/* methods */
-private:
-
-
-	/* members */
-private:
-
-
 
 	/* methods */
 public:
@@ -77,6 +69,14 @@ protected:
 	/* members */
 protected:
 
+
+
+	/* methods */
+private:
+
+
+	/* members */
+private:
 
 
 

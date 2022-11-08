@@ -4,3 +4,31 @@
 
 #include "CoreMinimal.h"
 
+/*
+* 
+//Class Template
+
+		// methods 
+public:
+
+
+	//members
+public:
+
+
+	//methods
+protected:
+
+
+	//members
+protected:
+
+
+	//methods
+private:
+
+
+	//members
+private:
+
+*/
