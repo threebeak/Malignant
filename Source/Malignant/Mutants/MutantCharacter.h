@@ -4,15 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "PlayerCharacter.h"
+#include "../MalignantEnums.h"
 #include "MutantCharacter.generated.h"
 
-/**
- * 
- */
-
-//MutantCharacter ID for determining in MutantMap
-UENUM(BlueprintType)
-enum EMutantState { Human = 0, EMS_Base, EMS_Bone, EMS_FourArm };
+//Forward Declarations
 
 
 //This is an abstract class for all mutants to inherit from

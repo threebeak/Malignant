@@ -4,10 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "../Mutants/MutantCharacter.h"
-#include "../Mutants/BoneBladeMutantCharacter.h"
-#include "../Mutants/FourArmMutantCharacter.h"
+#include "../MalignantEnums.h"
 #include "MutantMapComponent.generated.h"
+
 
 
 //Storage for all mutant class references 

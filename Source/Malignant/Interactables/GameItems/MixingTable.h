@@ -3,12 +3,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Camera/CameraComponent.h"
 #include "../Interactable.h"
-#include "../../Components/MutantMapComponent.h"
-#include "Components/BoxComponent.h"
-#include "../../Mutants/PlayerCharacter.h"
 #include "GameFramework/Actor.h"
 #include "MixingTable.generated.h"
+
+//Forward Declarations
+class UMutantMapComponent;
+class APlayerCharacter;
+class UBoxComponent;
+class UCameraComponent;
 
 //To pass values to BottleSelect function
 DECLARE_DELEGATE_OneParam(FBottleSelect, const int32)
@@ -53,27 +57,7 @@ public:
 	/* members */
 public:
 
-	//Bottle choices
-	TPair<bool, int32> Bottle1 = { false, 0 };
-	TPair<bool, int32> Bottle2 = { false, 0 };
 
-	//Widget to display when this object is viewed
-	UPROPERTY(EditAnywhere)
-		TSubclassOf<UUserWidget> WidgetType;
-
-	UPROPERTY(EditAnywhere)
-		UBoxComponent* BoxCollision;
-
-	UPROPERTY(EditAnywhere)
-		UCameraComponent* TableCamera;
-
-	//Mutant map to determine class selection from bottle choices 
-	UPROPERTY(VisibleAnywhere)
-		UMutantMapComponent* Mutants;
-
-	FActorSpawnParameters SpawnParams;
-
-	FTimerHandle CameraHandle;
 
 	/* methods */
 protected:
@@ -88,9 +72,9 @@ protected:
 
 	//Values for the interacting player and corresponding controller to recieve input
 	UPROPERTY()
-		APlayerCharacter* Player;
+	APlayerCharacter* Player;
 	UPROPERTY()
-		APlayerController* Controller;
+	APlayerController* Controller;
 
 	//Bottle meshes - YET TO BE ASSIGNED
 	UPROPERTY(EditAnywhere)
@@ -105,11 +89,46 @@ protected:
 private:
 
 
+	void BeginOverlapMixingTable(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	void EndOverlapMixingTable(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 	/* members */
 private:
 
+	//Bottle choices
+	TPair<bool, int32> Bottle1 = { false, 0 };
+	TPair<bool, int32> Bottle2 = { false, 0 };
+
+	//Widget to display when this object is viewed
+	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+		TSubclassOf<UUserWidget> WidgetType;
+
+	//Bottle collision
+	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+		UBoxComponent* BoxCollision;
+
+	//Area in which a player entering will trigger tracing for table
+	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+		UBoxComponent* MixingTableInteractArea;
+
+	//Camera for player to view / interact with mixing table from
+	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+		UCameraComponent* TableCamera;
+
+	//Mutant map to determine class selection from bottle choices 
+	UPROPERTY(VisibleAnywhere, meta = (AllowPrivateAccess = "true"))
+		UMutantMapComponent* Mutants;
+
+	//Mutant spawn params
+	//UPROPERTY(VisibleAnywhere, meta = (AllowPrivateAccess = "true"))
+	FActorSpawnParameters SpawnParams;
+
+	//Handles time of swap between player camera and mixing table camera
+	FTimerHandle CameraTimerHandle;
+
 	//Ensures that SetActionBindings will only be called the first time the object is interacted with
 	bool ActionsBound = false;
+
+
 
 	
 };

@@ -2,8 +2,10 @@
 
 
 #include "PlayerCharacter.h"
-#include "Components/CapsuleComponent.h"
 #include "Blueprint/UserWidget.h"
+#include "Camera/CameraComponent.h"
+#include "Components/CapsuleComponent.h"
+#include "Components/StaticMeshComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
@@ -50,14 +52,19 @@ void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	//Look trace
-	FVector Start = MainCamera->GetComponentLocation();
-	FVector End = (MainCamera->GetForwardVector() * LookDistance) + Start;
-	GetWorld()->LineTraceSingleByChannel(LookResult, Start, End, ECC_Visibility);
-	//DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 0.2f, 0, 5.0f);
+	if (bOverlappingTable)
+	{
+		//Look trace
+		FVector Start = MainCamera->GetComponentLocation();
+		FVector End = (MainCamera->GetForwardVector() * LookDistance) + Start;
+		GetWorld()->LineTraceSingleByChannel(LookResult, Start, End, ECC_Visibility);
+		//DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 0.2f, 0, 5.0f);
 
-	//Handle lookat hit result
-	HandleTrace();
+		//Handle lookat hit result
+		HandleTrace();
+	}
+
+	
 	
 }
 

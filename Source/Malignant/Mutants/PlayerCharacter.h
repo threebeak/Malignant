@@ -4,13 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Components/StaticMeshComponent.h"
-#include "Camera/CameraComponent.h"
 #include "../Interactables/Interactable.h"
 #include "Engine/World.h"
 #include "PlayerCharacter.generated.h"
 
-
+class UCameraComponent;
+class UStaticMeshComponent;
 
 
 UCLASS()
@@ -48,14 +47,17 @@ public:
 	//Attack method
 	virtual void Attack();
 
+	//toggles trace for mixing table flag, called from MixingTable within an overlap event callback
+	void SetOverlappingTable(bool bIsOverlapping) { bOverlappingTable = bIsOverlapping; }
+
 
 	/* members */
 public:
 
 	UPROPERTY(EditAnywhere)
-		UStaticMeshComponent* StaticMesh;
+	UStaticMeshComponent* StaticMesh;
 	UPROPERTY(EditAnywhere)
-		UCameraComponent* MainCamera;
+	UCameraComponent* MainCamera;
 
 	//Object currently being interacted with or viewed and interactable
 	IInteractable* InteractingObject;
@@ -99,7 +101,8 @@ private:
 	/* members */
 private:
 
-
+	//Flag for enabled/disabling trace for mixing table
+	bool bOverlappingTable;
 
 
 };
