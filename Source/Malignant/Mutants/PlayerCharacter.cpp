@@ -110,15 +110,15 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 //Movement Functions
 void APlayerCharacter::MoveForward(float AxisValue)
 {
-	if (GetCharacterMovement())
-		GetCharacterMovement()->AddInputVector(GetActorForwardVector() * AxisValue);
+	//if (GetCharacterMovement())
+	//	GetCharacterMovement()->AddInputVector(GetActorForwardVector() * AxisValue);
 
 }
 
 void APlayerCharacter::MoveRight(float AxisValue)
 {
-	if (GetCharacterMovement())
-		GetCharacterMovement()->AddInputVector(GetActorRightVector() * AxisValue);
+	//if (GetCharacterMovement())
+		//GetCharacterMovement()->AddInputVector(GetActorRightVector() * AxisValue);
 }
 
 void APlayerCharacter::LookUp(float AxisValue)
