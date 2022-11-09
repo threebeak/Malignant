@@ -18,7 +18,6 @@ AMixingTable::AMixingTable()
 	
 	Mutants = CreateDefaultSubobject<UMutantMapComponent>(TEXT("Map"));
 	BoxCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Collision"));
-	MixingTableInteractArea = CreateDefaultSubobject<UBoxComponent>(TEXT("Mixing Table Interact Area"));
 	TableCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("TableCamera"));
 
 	BottleMesh1 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Bottle 1"));
@@ -33,9 +32,7 @@ AMixingTable::AMixingTable()
 	BottleMesh1->SetupAttachment(RootComponent);
 	BottleMesh2->SetupAttachment(RootComponent);
 	BottleMesh3->SetupAttachment(RootComponent);
-	MixingTableInteractArea->SetupAttachment(RootComponent);
-
-
+	
 
 	TableCamera->SetRelativeRotation({ -15, -90, 0 });
 	TableCamera->SetRelativeLocation({ 0, 90, 73 });
@@ -49,29 +46,9 @@ AMixingTable::AMixingTable()
 void AMixingTable::BeginPlay()
 {
 	Super::BeginPlay();
-
-	MixingTableInteractArea->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-	MixingTableInteractArea->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
-	MixingTableInteractArea->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Overlap);
-	MixingTableInteractArea->OnComponentBeginOverlap.AddDynamic(this, &AMixingTable::BeginOverlapMixingTable);
-	MixingTableInteractArea->OnComponentEndOverlap.AddDynamic(this, &AMixingTable::EndOverlapMixingTable);
-
 	
 }
 
-void AMixingTable::BeginOverlapMixingTable(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(OtherActor);
-	if (PlayerCharacter)
-		PlayerCharacter->SetOverlappingTable(true);
-}
-
-void AMixingTable::EndOverlapMixingTable(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
-{
-	APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(OtherActor);
-	if (PlayerCharacter)
-		PlayerCharacter->SetOverlappingTable(false);
-}
 
 // Called every frame
 void AMixingTable::Tick(float DeltaTime)

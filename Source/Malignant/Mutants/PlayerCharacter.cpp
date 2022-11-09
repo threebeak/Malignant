@@ -45,6 +45,26 @@ void APlayerCharacter::Attack()
 {
 }
 
+void APlayerCharacter::SetOverlappingTable(bool bIsOverlapping)
+{
+	if (bIsOverlapping)
+	{
+		TestOverlapping++;
+	}
+	else
+	{
+		TestOverlapping--;
+	}
+	bOverlappingTable = bIsOverlapping;
+	if (!bIsOverlapping)
+	{ 
+		HandleDisplay(false);
+		InteractingObject = nullptr;
+	}
+		
+
+}
+
 
 
 
@@ -53,7 +73,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (bOverlappingTable)
+	if (TestOverlapping > 0)
 	{
 		//Look trace
 		FVector Start = MainCamera->GetComponentLocation();
@@ -63,13 +83,10 @@ void APlayerCharacter::Tick(float DeltaTime)
 
 		//Handle lookat hit result
 		HandleTrace();
-		//HandleDisplay(true);
+		
 
 	}
-	else
-	{
-		//HandleDisplay(false);
-	}
+	
 
 	
 	

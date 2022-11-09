@@ -48,7 +48,7 @@ public:
 	virtual void Attack();
 
 	//toggles trace for mixing table flag, called from MixingTable within an overlap event callback
-	void SetOverlappingTable(bool bIsOverlapping) { bOverlappingTable = bIsOverlapping; }
+	void SetOverlappingTable(bool bIsOverlapping);
 
 
 	/* members */
@@ -69,6 +69,9 @@ public:
 	//Default distance for line trace
 	UPROPERTY(EditAnywhere, Category = Traces)
 		float LookDistance = 200;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Traces)
+	int TestOverlapping;
 
 
 	/* methods */
@@ -103,6 +106,8 @@ private:
 
 	//Flag for enabled/disabling trace for mixing table
 	bool bOverlappingTable;
+
+	
 
 
 };
