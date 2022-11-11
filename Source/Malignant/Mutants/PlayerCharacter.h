@@ -3,9 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Engine/World.h"
 #include "GameFramework/Character.h"
 #include "../Interactables/Interactable.h"
-#include "Engine/World.h"
+#include "../MalignantEnums.h"
 #include "PlayerCharacter.generated.h"
 
 class UCameraComponent;
@@ -85,6 +86,10 @@ protected:
 	void HandleDisplay(bool Visible);
 
 
+	UFUNCTION(BlueprintImplementableEvent)
+		void DetermineMovementStateBP();
+
+
 	/* members */
 protected:
 	
@@ -100,6 +105,9 @@ protected:
 	/* methods */
 private:
 
+	void DetermineMovementState();
+
+
 
 	/* members */
 private:
@@ -107,6 +115,18 @@ private:
 	//Flag for enabled/disabling trace for mixing table
 	bool bOverlappingTable;
 
+	//Player movement state
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Player States", meta = (AllowPrivateAccess = "true"))
+		TEnumAsByte<ECharacterMovementState> PlayerMovementState;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Wall Run", meta = (AllowPrivateAccess = "true"))
+	FVector WallRunDirection;
+		
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Wall Run", meta = (AllowPrivateAccess = "true"))
+	bool bWallRunning;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Wall Run", meta = (AllowPrivateAccess = "true"))
+	TEnumAsByte<EWallRunSide> WallRunSide;
 	
 
 

@@ -221,3 +221,8 @@ void APlayerCharacter::HandleDisplay(bool Visible)
 	if(DisplayWidget)
 		DisplayWidget->RemoveFromViewport();
 }
+
+void APlayerCharacter::DetermineMovementState()
+{
+	DetermineMovementStateBP();
+}
