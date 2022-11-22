@@ -3,6 +3,12 @@
 
 #include "MutantMapComponent.h"
 
+#include "../Mutants/BoneBladeMutantCharacter.h"
+#include "../Mutants/FourArmMutantCharacter.h"
+#include "../Mutants/BruteMutantCharacter.h"
+#include "../Mutants/FireBreathingMutantCharacter.h"
+#include "../Mutants/PoisonMutantCharacter.h"
+
 // Sets default values for this component's properties
 UMutantMapComponent::UMutantMapComponent()
 {
@@ -12,9 +18,12 @@ UMutantMapComponent::UMutantMapComponent()
 	bAutoActivate = true;
 
 	//Add class references to the map
-	MutantClassMap.Add(EMS_Base, AMutantCharacter::StaticClass());
-	MutantClassMap.Add(EMS_Bone, ABoneBladeMutantCharacter::StaticClass());
-	MutantClassMap.Add(EMS_FourArm, AFourArmMutantCharacter::StaticClass());
+	MutantClassMap.Add(EMutantState::EMS_Base, AMutantCharacter::StaticClass());
+	MutantClassMap.Add(EMutantState::EMS_Bone, ABoneBladeMutantCharacter::StaticClass());
+	MutantClassMap.Add(EMutantState::EMS_FourArm, AFourArmMutantCharacter::StaticClass());
+	MutantClassMap.Add(EMutantState::EMS_Brute, ABruteMutantCharacter::StaticClass());
+	MutantClassMap.Add(EMutantState::EMS_FireBreathing, AFireBreathingMutantCharacter::StaticClass());
+	MutantClassMap.Add(EMutantState::EMS_Poison, APoisonMutantCharacter::StaticClass());
 
 }
 

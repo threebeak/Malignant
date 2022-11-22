@@ -12,7 +12,16 @@
 
 //MutantCharacter ID for determining in MutantMap
 UENUM(BlueprintType)
-enum EMutantState { Human = 0, EMS_Base, EMS_Bone, EMS_FourArm };
+enum class EMutantState : uint8
+{	
+	Human = 0, 
+	EMS_Base, 
+	EMS_Bone, 
+	EMS_FourArm, 
+	EMS_Brute, 
+	EMS_FireBreathing, 
+	EMS_Poison 
+};
 
 
 //This is an abstract class for all mutants to inherit from

@@ -2,6 +2,7 @@
 
 
 #include "MixingTable.h"
+#include "./Malignant/Mutants/MutantCharacter.h"
 #include "Blueprint/UserWidget.h"
 
 
@@ -18,6 +19,15 @@ AMixingTable::AMixingTable()
 	BottleMesh1 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Bottle 1"));
 	BottleMesh2 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Bottle 2"));
 	BottleMesh3 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Bottle 3"));
+	BottleMesh4 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Bottle 4"));
+
+	ConstructorHelpers::FObjectFinder<UStaticMesh>Mesh1(TEXT("StaticMesh'/Game/Meshes/Flasks/Flasks__1__Flask2.Flasks__1__Flask2'"));
+	ConstructorHelpers::FObjectFinder<UStaticMesh>Mesh2(TEXT("StaticMesh'/Game/Meshes/Flasks/Flasks__1__Flask1.Flasks__1__Flask1'"));
+
+	BottleMesh1->SetStaticMesh(Mesh1.Object);
+	BottleMesh3->SetStaticMesh(Mesh1.Object);
+	BottleMesh2->SetStaticMesh(Mesh2.Object);
+	BottleMesh4->SetStaticMesh(Mesh2.Object);
 
 	RootComponent = BoxCollision;
 	BoxCollision->SetBoxExtent({ 64,32,32 });
@@ -27,12 +37,14 @@ AMixingTable::AMixingTable()
 	BottleMesh1->SetupAttachment(RootComponent);
 	BottleMesh2->SetupAttachment(RootComponent);
 	BottleMesh3->SetupAttachment(RootComponent);
+	BottleMesh4->SetupAttachment(RootComponent);
 
 	TableCamera->SetRelativeRotation({ -15, -90, 0 });
 	TableCamera->SetRelativeLocation({ 0, 90, 73 });
-	BottleMesh1->SetRelativeLocation({ -50, 0, 36 });
-	BottleMesh2->SetRelativeLocation({ 0, 0, 36 });
-	BottleMesh3->SetRelativeLocation({ 50, 0, 36 });
+	BottleMesh1->SetRelativeLocation({ -50, 0, 20 });
+	BottleMesh2->SetRelativeLocation({ -17, 0, 20 });
+	BottleMesh3->SetRelativeLocation({ 17, 0, 20 });
+	BottleMesh4->SetRelativeLocation({ 50, 0, 20 });
 
 }
 
@@ -81,6 +93,7 @@ bool AMixingTable::SetActionBindings(APlayerCharacter* Character)
 		InputComponent->BindAction<FBottleSelect>("Bottle_1", IE_Pressed, this, &AMixingTable::BottleSelect, 1);
 		InputComponent->BindAction<FBottleSelect>("Bottle_2", IE_Pressed, this, &AMixingTable::BottleSelect, 2);
 		InputComponent->BindAction<FBottleSelect>("Bottle_3", IE_Pressed, this, &AMixingTable::BottleSelect, 3);
+		InputComponent->BindAction<FBottleSelect>("Bottle_4", IE_Pressed, this, &AMixingTable::BottleSelect, 4);
 		ActionsBound = true;
 	}
 
@@ -92,12 +105,33 @@ bool AMixingTable::SetActionBindings(APlayerCharacter* Character)
 bool AMixingTable::ChooseMutant(AActor* CallingActor)
 {
 	int32 BottleValue = Bottle1.Value + Bottle2.Value;
+	if (BottleValue < 5)
+	{
+		BottleValue -= 2;
+	}
+	else
+	{
+		if (BottleValue > 5)
+		{
+			BottleValue -= 1;
+			
+		}
+		else
+		{
+			int32 i = abs(Bottle2.Value - Bottle1.Value);
+				switch (i)
+				{
+				case 1:
+					BottleValue = 4;
+					break;
+				case 3:
+					BottleValue = 3;
+					break;
+				}
+		}
+	}
 
-	//This will TEMPORARILY use the sum of bottle values because there are currently only 3 bottles
-	//Each combination of values - 2 will result in 1 2 or 3 and can be used to determine mutant state.
-	//This will have to change when more bottles and mutants are added
-
-	EMutantState State = StaticCast<EMutantState>(BottleValue - 2);
+	EMutantState State = StaticCast<EMutantState>(BottleValue);
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("CHOOSE MUTANT %i"), (BottleValue - 2)));
 if (Mutants)
 	{
@@ -133,8 +167,8 @@ void AMixingTable::BottleSelect(const int32 BottleValue)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("%i"), BottleValue));
 
-	//If we've already selected 2 bottles, the choice has been made and this function will not execute again
-	if (Bottle2.Key)
+	//If we've already selected 2 bottles or selected a repeat bottle,this function will not execute again
+	if (Bottle2.Key || Bottle1.Value == BottleValue)
 		return;
 
 	/***Temporary to show which bottles have been selected****/
@@ -148,6 +182,9 @@ void AMixingTable::BottleSelect(const int32 BottleValue)
 		break;
 	case 3:
 		BottleMesh3->SetVisibility(false);
+		break;
+	case 4:
+		BottleMesh4->SetVisibility(false);
 		break;
 	}
 	/***************************************************/

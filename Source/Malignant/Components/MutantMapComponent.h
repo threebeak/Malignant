@@ -5,10 +5,11 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "../Mutants/MutantCharacter.h"
-#include "../Mutants/BoneBladeMutantCharacter.h"
-#include "../Mutants/FourArmMutantCharacter.h"
 #include "MutantMapComponent.generated.h"
 
+
+
+class AMutantCharacter;
 
 //Storage for all mutant class references 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )

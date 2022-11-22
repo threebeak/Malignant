@@ -99,6 +99,8 @@ protected:
 		UStaticMeshComponent* BottleMesh2;
 	UPROPERTY(EditAnywhere)
 		UStaticMeshComponent* BottleMesh3;
+	UPROPERTY(EditAnywhere)
+		UStaticMeshComponent* BottleMesh4;
 
 
 	/* methods */
