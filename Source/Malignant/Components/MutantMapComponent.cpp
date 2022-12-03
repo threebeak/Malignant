@@ -47,7 +47,7 @@ void UMutantMapComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 }
 
 //Accessor for MutantClassMap
-TMap<TEnumAsByte<EMutantState>, TSubclassOf<AMutantCharacter>> UMutantMapComponent::GetMap()
+TMap<EMutantState, TSubclassOf<AMutantCharacter>> UMutantMapComponent::GetMap()
 {
 	return MutantClassMap;
 }
