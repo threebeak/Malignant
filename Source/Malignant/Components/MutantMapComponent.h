@@ -4,10 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "../MalignantEnums.h"
+#include "../Mutants/MutantCharacter.h"
 #include "MutantMapComponent.generated.h"
 
 
+
+class AMutantCharacter;
 
 //Storage for all mutant class references 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -26,7 +28,7 @@ public:
 
 	//Accessor for MutantClassMap
 	UFUNCTION(BlueprintCallable)
-		TMap<TEnumAsByte<EMutantState>, TSubclassOf<AMutantCharacter>> GetMap();
+		TMap<EMutantState, TSubclassOf<AMutantCharacter>> GetMap();
 
 	/* members */
 public:
@@ -48,7 +50,7 @@ protected:
 
 	//TMap to hold mutant class references
 	UPROPERTY()
-	TMap<TEnumAsByte<EMutantState>, TSubclassOf<AMutantCharacter>> MutantClassMap;
+	TMap<EMutantState, TSubclassOf<AMutantCharacter>> MutantClassMap;
 
 
 	/* methods */

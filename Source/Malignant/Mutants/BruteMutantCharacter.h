@@ -15,29 +15,31 @@ class MALIGNANT_API ABruteMutantCharacter : public AMutantCharacter
 	GENERATED_BODY()
 
 
-		/* methods */
+	
+public:
+	ABruteMutantCharacter();
+
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void Interact() override;
+
+
 public:
 
 
-	/* members */
-public:
 
-
-
-	/* methods */
 protected:
 
 
-
-	/* members */
 protected:
 
 
-	/* methods */
 private:
 
 
-	/* members */
+
 private:
 	
 };

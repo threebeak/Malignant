@@ -15,42 +15,31 @@ class MALIGNANT_API AFireBreathingMutantCharacter : public AMutantCharacter
 	GENERATED_BODY()
 
 
+public:
+	AFireBreathingMutantCharacter();
 
-	/* methods */
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void Interact() override;
+
+
 public:
 
 
-	/* members */
-public:
 
-
-
-	/* methods */
 protected:
 
 
-
-	/* members */
 protected:
 
 
-	/* methods */
 private:
 
 
-	/* members */
-private:
 
+private:
 
 
 };
-
-
-
-/*
-public:
-
-protected:
-
-	//Attack method
-	virtual void Attack() override;*/
