@@ -4,11 +4,6 @@
 #include "MixingTable.h"
 #include "./Malignant/Mutants/MutantCharacter.h"
 #include "Blueprint/UserWidget.h"
-#include "Components/BoxComponent.h"
-#include "../../Components/MutantMapComponent.h"
-#include "../../Mutants/PlayerCharacter.h"
-#include "../../Mutants/MutantCharacter.h"
-
 
 
 // Sets default values
@@ -59,7 +54,6 @@ void AMixingTable::BeginPlay()
 	Super::BeginPlay();
 	
 }
-
 
 // Called every frame
 void AMixingTable::Tick(float DeltaTime)
@@ -225,7 +219,7 @@ void AMixingTable::Exit()
 	Controller->SetViewTargetWithBlend(Player, 1.0f);
 
 	//Wait for camera change then Clear()
-	GetWorldTimerManager().SetTimer(CameraTimerHandle, this, &AMixingTable::Clear, 1.0f, false);
+	GetWorldTimerManager().SetTimer(CameraHandle, this, &AMixingTable::Clear, 1.0f, false);
 	
 }
 

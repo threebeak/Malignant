@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "PlayerCharacter.h"
-#include "../MalignantEnums.h"
 #include "MutantCharacter.generated.h"
 
 /**

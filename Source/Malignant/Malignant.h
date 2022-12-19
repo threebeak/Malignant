@@ -4,8 +4,6 @@
 
 #include "CoreMinimal.h"
 
-#define COLLISION_PLAYER ECC_GameTraceChannel1
-
 /*
 * 
 //Class Template

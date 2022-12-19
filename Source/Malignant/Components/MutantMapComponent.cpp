@@ -2,13 +2,6 @@
 
 
 #include "MutantMapComponent.h"
-#include "../Mutants/BoneBladeMutantCharacter.h"
-#include "../Mutants/BruteMutantCharacter.h"
-#include "../Mutants/FireBreathingMutantCharacter.h"
-#include "../Mutants/FourArmMutantCharacter.h"
-#include "../Mutants/PoisonMutantCharacter.h"
-#include "../Mutants/MutantCharacter.h"
-
 
 #include "../Mutants/BoneBladeMutantCharacter.h"
 #include "../Mutants/FourArmMutantCharacter.h"
