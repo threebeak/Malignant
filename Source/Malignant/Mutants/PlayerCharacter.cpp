@@ -2,15 +2,12 @@
 
 
 #include "PlayerCharacter.h"
-#include "Blueprint/UserWidget.h"
-#include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
-#include "Components/StaticMeshComponent.h"
+#include "Blueprint/UserWidget.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
-APlayerCharacter::APlayerCharacter():
-	bOverlappingTable(false)
+APlayerCharacter::APlayerCharacter()
 {
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -45,26 +42,6 @@ void APlayerCharacter::Attack()
 {
 }
 
-void APlayerCharacter::SetOverlappingTable(bool bIsOverlapping)
-{
-	if (bIsOverlapping)
-	{
-		TestOverlapping++;
-	}
-	else
-	{
-		TestOverlapping--;
-	}
-	bOverlappingTable = bIsOverlapping;
-	if (!bIsOverlapping)
-	{ 
-		HandleDisplay(false);
-		InteractingObject = nullptr;
-	}
-		
-
-}
-
 
 
 
@@ -73,22 +50,14 @@ void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (TestOverlapping > 0)
-	{
-		//Look trace
-		FVector Start = MainCamera->GetComponentLocation();
-		FVector End = (MainCamera->GetForwardVector() * LookDistance) + Start;
-		GetWorld()->LineTraceSingleByChannel(LookResult, Start, End, ECC_Visibility);
-		//DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 0.2f, 0, 5.0f);
+	//Look trace
+	FVector Start = MainCamera->GetComponentLocation();
+	FVector End = (MainCamera->GetForwardVector() * LookDistance) + Start;
+	GetWorld()->LineTraceSingleByChannel(LookResult, Start, End, ECC_Visibility);
+	//DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 0.2f, 0, 5.0f);
 
-		//Handle lookat hit result
-		HandleTrace();
-		
-
-	}
-	
-
-	
+	//Handle lookat hit result
+	HandleTrace();
 	
 }
 
@@ -110,15 +79,15 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 //Movement Functions
 void APlayerCharacter::MoveForward(float AxisValue)
 {
-	//if (GetCharacterMovement())
-	//	GetCharacterMovement()->AddInputVector(GetActorForwardVector() * AxisValue);
+	if (GetCharacterMovement())
+		GetCharacterMovement()->AddInputVector(GetActorForwardVector() * AxisValue);
 
 }
 
 void APlayerCharacter::MoveRight(float AxisValue)
 {
-	//if (GetCharacterMovement())
-		//GetCharacterMovement()->AddInputVector(GetActorRightVector() * AxisValue);
+	if (GetCharacterMovement())
+		GetCharacterMovement()->AddInputVector(GetActorRightVector() * AxisValue);
 }
 
 void APlayerCharacter::LookUp(float AxisValue)
@@ -220,9 +189,4 @@ void APlayerCharacter::HandleDisplay(bool Visible)
 	}
 	if(DisplayWidget)
 		DisplayWidget->RemoveFromViewport();
-}
-
-void APlayerCharacter::DetermineMovementState()
-{
-	DetermineMovementStateBP();
 }
