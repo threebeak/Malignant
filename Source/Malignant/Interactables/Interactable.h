@@ -6,7 +6,6 @@
 #include "UObject/Interface.h"
 #include "Interactable.generated.h"
 
-
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI)
 class UInteractable : public UInterface
@@ -29,5 +28,4 @@ public:
 
 	virtual bool Interact(AActor* CallingActor);
 	virtual TSubclassOf<UUserWidget> GetWidgetType();
-
 };
