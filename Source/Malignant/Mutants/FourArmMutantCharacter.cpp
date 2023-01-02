@@ -2,6 +2,7 @@
 
 
 #include "FourArmMutantCharacter.h"
+#include "Camera/CameraComponent.h"
 
 //Set base stats and new components
 AFourArmMutantCharacter::AFourArmMutantCharacter()

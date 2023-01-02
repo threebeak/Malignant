@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
-#include "Components/StaticMeshComponent.h"
-#include "Camera/CameraComponent.h"
-#include "../Interactables/Interactable.h"
 #include "Engine/World.h"
+#include "GameFramework/Character.h"
+#include "../Interactables/Interactable.h"
+#include "../MalignantEnums.h"
 #include "PlayerCharacter.generated.h"
 
-
+class UCameraComponent;
+class UStaticMeshComponent;
 
 
 UCLASS()
@@ -48,14 +48,17 @@ public:
 	//Attack method
 	virtual void Attack();
 
+	//toggles trace for mixing table flag, called from MixingTable within an overlap event callback
+	void SetOverlappingTable(bool bIsOverlapping);
+
 
 	/* members */
 public:
 
 	UPROPERTY(EditAnywhere)
-		UStaticMeshComponent* StaticMesh;
+	UStaticMeshComponent* StaticMesh;
 	UPROPERTY(EditAnywhere)
-		UCameraComponent* MainCamera;
+	UCameraComponent* MainCamera;
 
 	//Object currently being interacted with or viewed and interactable
 	IInteractable* InteractingObject;
@@ -68,6 +71,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = Traces)
 		float LookDistance = 200;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Traces)
+	int TestOverlapping;
+
 
 	/* methods */
 protected:
@@ -78,6 +84,10 @@ protected:
 	//Handle LookResult and DisplayWidget
 	void HandleTrace();
 	void HandleDisplay(bool Visible);
+
+
+	UFUNCTION(BlueprintImplementableEvent)
+		void DetermineMovementStateBP();
 
 
 	/* members */
@@ -95,11 +105,29 @@ protected:
 	/* methods */
 private:
 
+	void DetermineMovementState();
+
+
 
 	/* members */
 private:
 
+	//Flag for enabled/disabling trace for mixing table
+	bool bOverlappingTable;
 
+	//Player movement state
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Player States", meta = (AllowPrivateAccess = "true"))
+		TEnumAsByte<ECharacterMovementState> PlayerMovementState;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Wall Run", meta = (AllowPrivateAccess = "true"))
+	FVector WallRunDirection;
+		
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Wall Run", meta = (AllowPrivateAccess = "true"))
+	bool bWallRunning;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Wall Run", meta = (AllowPrivateAccess = "true"))
+	TEnumAsByte<EWallRunSide> WallRunSide;
+	
 
 
 };
