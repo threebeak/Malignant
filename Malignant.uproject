@@ -46,6 +46,10 @@
 		{
 			"Name": "FieldSystemPlugin",
 			"Enabled": true
+		},
+		{
+			"Name": "NiagaraFluids",
+			"Enabled": true
 		}
 	]
 }
