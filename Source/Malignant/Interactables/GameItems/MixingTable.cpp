@@ -3,6 +3,7 @@
 
 #include "MixingTable.h"
 #include "./Malignant/Mutants/MutantCharacter.h"
+#include "./Malignant/GameModes/MalignantGameState.h"
 #include "Blueprint/UserWidget.h"
 
 
@@ -146,15 +147,12 @@ if (Mutants)
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("CALLED")));
 
 			//Try to spawn new mutant character
-			AMutantCharacter* NewCharacter = GetWorld()->SpawnActor<AMutantCharacter>(NewMutant, Player->GetActorLocation(), Player->GetActorRotation(), SpawnParams);
-			if (NewCharacter)
+			AMalignantGameState* CurrentGameState = Cast<AMalignantGameState>(GetWorld()->GetGameState());
+			if (CurrentGameState)
 			{
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("%s"), *NewCharacter->GetName().ToString()));
-				Player = NewCharacter;
+				CurrentGameState->SpawnPlayer(State);
 				return true;
-
 			}
-			
 		}
 		return false;
 	}
@@ -201,7 +199,7 @@ void AMixingTable::BottleSelect(const int32 BottleValue)
 
 	//Try to determine mutant
 	ChooseMutant(Player);
-	Exit();
+//	Exit();
 
 	
 }
