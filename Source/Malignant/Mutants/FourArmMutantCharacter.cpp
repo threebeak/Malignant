@@ -84,6 +84,6 @@ void AFourArmMutantCharacter::ThrowObject()
 	
 }
 
-void AFourArmMutantCharacter::Attack()
+void AFourArmMutantCharacter::LightAttack()
 {
 }

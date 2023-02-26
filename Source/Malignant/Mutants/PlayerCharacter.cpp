@@ -38,7 +38,11 @@ void APlayerCharacter::BeginPlay()
 
 }
 
-void APlayerCharacter::Attack()
+void APlayerCharacter::LightAttack()
+{
+}
+
+void APlayerCharacter::HeavyAttack()
 {
 }
 
