@@ -46,7 +46,8 @@ public:
 	virtual void Interact();
 
 	//Attack method
-	virtual void Attack();
+	virtual void LightAttack();
+	virtual void HeavyAttack();
 
 
 	/* members */

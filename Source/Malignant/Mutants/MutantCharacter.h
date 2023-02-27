@@ -10,6 +10,8 @@
  * 
  */
 
+class UComboAttackComponent;
+
 //MutantCharacter ID for determining in MutantMap
 UENUM(BlueprintType)
 enum class EMutantState : uint8
@@ -46,13 +48,25 @@ public:
 	virtual FName GetName();
 
 	//Attack method
-	virtual void Attack() override;
+
+	UFUNCTION(BlueprintCallable)
+		virtual void LightAttack() override;
+
+	UFUNCTION(BlueprintCallable)
+		virtual void HeavyAttack() override;
 
 
 	/* members */
 public:
 
+	UPROPERTY(EditAnywhere, Category = Animation)
+		UAnimMontage* MutantAttackMontage;
 
+	UPROPERTY(EditAnywhere, Category = Animation)
+		TSubclassOf<UComboAttackComponent> AttackComponentClass;
+
+	UPROPERTY(EditAnywhere)
+		UComboAttackComponent* AttackComponent;
 
 	/* methods */
 protected:

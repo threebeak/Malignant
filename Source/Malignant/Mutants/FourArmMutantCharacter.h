@@ -42,7 +42,7 @@ public:
 	void ThrowObject();
 
 	//Attack method
-	virtual void Attack() override;
+	virtual void LightAttack() override;
 
 
 	/* members */

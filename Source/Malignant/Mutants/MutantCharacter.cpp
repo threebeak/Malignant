@@ -2,14 +2,28 @@
 
 
 #include "MutantCharacter.h"
+#include "./Malignant/ComboAttackComponent.h"
 
 AMutantCharacter::AMutantCharacter()
 {
+
 }
 
 void AMutantCharacter::BeginPlay()
 {
+
+	
 	Super::BeginPlay();
+
+	if (AttackComponentClass)
+	{
+		AttackComponent = NewObject<UComboAttackComponent>(this, AttackComponentClass, TEXT("AttackComponent"));
+	}
+	if (AttackComponent)
+	{
+		AttackComponent->SetSkeletalMesh(GetMesh());
+		AttackComponent->SetAttackMontage(MutantAttackMontage);
+	}
 }
 
 void AMutantCharacter::Tick(float DeltaTime)
@@ -34,6 +48,14 @@ FName AMutantCharacter::GetName()
 	return Label;
 }
 
-void AMutantCharacter::Attack()
+void AMutantCharacter::LightAttack()
 {
+	if(AttackComponent)
+		AttackComponent->LightAttack();
+}
+
+void AMutantCharacter::HeavyAttack()
+{
+	if(AttackComponent)
+		AttackComponent->HeavyAttack();
 }
