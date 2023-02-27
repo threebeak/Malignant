@@ -2,8 +2,8 @@
 
 
 #include "MixingTable.h"
-#include "./Malignant/Mutants/MutantCharacter.h"
-#include "./Malignant/GameModes/MalignantGameState.h"
+#include "MutantCharacter.h"
+#include "MalignantGameState.h"
 #include "Blueprint/UserWidget.h"
 
 

@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameStateBase.h"
-#include "../Mutants/MutantCharacter.h"
+#include "MutantCharacter.h"
 #include "MalignantGameState.generated.h"
 
 /**

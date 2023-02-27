@@ -3,11 +3,11 @@
 
 #include "MutantMapComponent.h"
 
-#include "../Mutants/BoneBladeMutantCharacter.h"
-#include "../Mutants/FourArmMutantCharacter.h"
-#include "../Mutants/BruteMutantCharacter.h"
-#include "../Mutants/FireBreathingMutantCharacter.h"
-#include "../Mutants/PoisonMutantCharacter.h"
+#include "BoneBladeMutantCharacter.h"
+#include "FourArmMutantCharacter.h"
+#include "BruteMutantCharacter.h"
+#include "FireBreathingMutantCharacter.h"
+#include "PoisonMutantCharacter.h"
 
 // Sets default values for this component's properties
 UMutantMapComponent::UMutantMapComponent()

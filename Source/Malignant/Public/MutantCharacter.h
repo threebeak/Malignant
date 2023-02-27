@@ -4,6 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "PlayerCharacter.h"
+#include "Containers/EnumAsByte.h"
+#include "Chaos/ChaosEngineInterface.h"
+#include "MetasoundSource.h"
+#include "NiagaraSystem.h"
 #include "MutantCharacter.generated.h"
 
 /**
@@ -31,8 +35,6 @@ UCLASS()
 class MALIGNANT_API AMutantCharacter : public APlayerCharacter
 {
 	GENERATED_BODY()
-
-
 	/* methods */
 public:
 
@@ -48,7 +50,6 @@ public:
 	virtual FName GetName();
 
 	//Attack method
-
 	UFUNCTION(BlueprintCallable)
 		virtual void LightAttack() override;
 
@@ -58,6 +59,12 @@ public:
 
 	/* members */
 public:
+
+	UPROPERTY(EditAnywhere, Category = AnimationNotify)
+		TMap<TEnumAsByte<EPhysicalSurface>, UMetaSoundSource*> MetasoundSolver;
+
+	UPROPERTY(EditAnywhere, Category = AnimationNotify)
+		TMap<TEnumAsByte<EPhysicalSurface>, UNiagaraSystem*> NiagaraSolver;
 
 	UPROPERTY(EditAnywhere, Category = Animation)
 		UAnimMontage* MutantAttackMontage;
