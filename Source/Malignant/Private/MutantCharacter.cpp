@@ -2,7 +2,7 @@
 
 
 #include "MutantCharacter.h"
-#include "./Malignant/ComboAttackComponent.h"
+#include "ComboAttackComponent.h"
 
 AMutantCharacter::AMutantCharacter()
 {
