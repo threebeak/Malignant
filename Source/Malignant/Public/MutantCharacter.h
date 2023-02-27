@@ -60,10 +60,10 @@ public:
 	/* members */
 public:
 
-	UPROPERTY(EditAnywhere, Category = AnimationNotify)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = AnimationNotify)
 		TMap<TEnumAsByte<EPhysicalSurface>, UMetaSoundSource*> MetasoundSolver;
 
-	UPROPERTY(EditAnywhere, Category = AnimationNotify)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = AnimationNotify)
 		TMap<TEnumAsByte<EPhysicalSurface>, UNiagaraSystem*> NiagaraSolver;
 
 	UPROPERTY(EditAnywhere, Category = Animation)
