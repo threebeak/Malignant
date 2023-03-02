@@ -32,11 +32,11 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	//Movement Functions
-	void MoveForward(float AxisValue);
-	void MoveRight(float AxisValue);
-	void LookUp(float AxisValue);
-	void LookRight(float AxisValue);
-	void Jump();
+	virtual void MoveForward(float AxisValue);
+	virtual void MoveRight(float AxisValue);
+	virtual void LookUp(float AxisValue);
+	virtual void LookRight(float AxisValue);
+	virtual void Jump();
 
 	//Proxies for Enable/Disable Input
 	void Lock();

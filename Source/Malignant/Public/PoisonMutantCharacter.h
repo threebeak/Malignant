@@ -23,9 +23,16 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void Interact() override;
 
+	void MoveForward(float AxisValue) override;
+	void MoveRight(float AxisValue) override;
+	void LookUp(float AxisValue) override;
+	void LookRight(float AxisValue) override;
+	void Jump() override;
 
 public:
 
+	UPROPERTY(BlueprintReadWrite)
+		bool isWallClimbing;
 
 
 protected:
