@@ -24,7 +24,7 @@ void UComboAttackComponent::LightAttack()
 	if (!bIsAttacking)
 	{
 		AttackSection = "0";
-		StartAttack(AttackSection, 1.0);
+		StartAttack(AttackSection, AttackSpeed);
 	}
 	if (bComboIsValid())
 	{
@@ -61,7 +61,7 @@ void UComboAttackComponent::HeavyAttack()
 	if (!bIsAttacking)
 	{
 		AttackSection = "2";
-		StartAttack(AttackSection, 1.0);
+		StartAttack(AttackSection, AttackSpeed);
 	}
 	if (bComboIsValid())
 	{
@@ -125,7 +125,7 @@ void UComboAttackComponent::FinishAttack()
 	if (ComboCounter > 2)
 	{
 		FTimerHandle ComboDelay;
-		GetOwner()->GetWorldTimerManager().SetTimer(ComboDelay, this, &UComboAttackComponent::Reset, 1.0, false);
+		GetOwner()->GetWorldTimerManager().SetTimer(ComboDelay, this, &UComboAttackComponent::Reset, 0.6, false);
 		return;
 	}
 	Reset();
@@ -137,6 +137,7 @@ void UComboAttackComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
+	AttackSpeed = StartingAttackSpeed;
 	// ...
 	
 }
@@ -184,7 +185,7 @@ void UComboAttackComponent::Reset()
 	bIsAttacking = false;
 	bPlayNextAttack = false;
 	ComboCounter = 1;
-	AttackSpeed = 1.0;
+	AttackSpeed = StartingAttackSpeed;
 }
 
 void UComboAttackComponent::SetSkeletalMesh(USkeletalMeshComponent* Component)

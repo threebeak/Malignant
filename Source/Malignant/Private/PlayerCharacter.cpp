@@ -76,6 +76,8 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	InputComponent->BindAxis("LookRight", this, &APlayerCharacter::LookRight);
 	InputComponent->BindAction("Jump", IE_Pressed, this, &APlayerCharacter::Jump);
 	InputComponent->BindAction("Interact", IE_Pressed, this, &APlayerCharacter::Interact);
+	InputComponent->BindAction("LightAttack", IE_Pressed, this, &APlayerCharacter::LightAttack);
+	InputComponent->BindAction("HeavyAttack", IE_Pressed, this, &APlayerCharacter::HeavyAttack);
 
 }
 
@@ -98,8 +100,10 @@ void APlayerCharacter::LookUp(float AxisValue)
 {
 
 	FRotator CurrentRotation = MainCamera->GetRelativeRotation();
-	CurrentRotation.Pitch = FMath::ClampAngle((CurrentRotation.Pitch + AxisValue), -89.0f, 89.0f);
-	MainCamera->SetRelativeRotation(CurrentRotation);
+	FRotator NewRotation = CurrentRotation;
+	NewRotation.Pitch = FMath::Clamp(NewRotation.Pitch + AxisValue, -89.0, 89.0);
+	MainCamera->SetRelativeRotation(NewRotation);
+
 }
 
 void APlayerCharacter::LookRight(float AxisValue)

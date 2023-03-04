@@ -49,6 +49,10 @@ protected:
 
 
 	FName AttackSection;
+
+	UPROPERTY(EditAnywhere)
+		float StartingAttackSpeed = 1;
+
 	float AttackSpeed = 1;
 	bool bIsAttacking = false;
 	bool bWithinComboFrames = false;
