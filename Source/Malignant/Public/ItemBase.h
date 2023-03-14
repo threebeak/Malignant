@@ -9,9 +9,14 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(BlueprintType)
 class MALIGNANT_API UItemBase : public UObject
 {
 	GENERATED_BODY()
+
+public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		UTexture* ItemIcon;
 	
 };

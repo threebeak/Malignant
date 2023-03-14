@@ -9,7 +9,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(Blueprintable)
 class MALIGNANT_API UMutagenBase : public UItemBase
 {
 	GENERATED_BODY()
