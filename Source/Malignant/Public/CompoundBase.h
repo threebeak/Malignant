@@ -13,5 +13,8 @@ UCLASS(Blueprintable)
 class MALIGNANT_API UCompoundBase : public UItemBase
 {
 	GENERATED_BODY()
+public:
+
+	UCompoundBase();
 	
 };
