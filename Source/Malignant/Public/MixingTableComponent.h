@@ -8,6 +8,7 @@
 
 class UMutagenBase;
 class UCompoundBase;
+class AMutantCharacter;
 
 USTRUCT(BlueprintType, Blueprintable)
 struct FMutagens
@@ -49,6 +50,9 @@ public:
 
 	// Sets default values for this component's properties
 	UMixingTableComponent();
+
+	UFUNCTION(BlueprintCallable)
+	TSubclassOf<AMutantCharacter> Mix(TSubclassOf<UMutagenBase> MutagenClass, TArray<TSubclassOf<UCompoundBase>> Ingredients, bool &isValid);
 
 protected:
 	// Called when the game starts

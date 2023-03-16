@@ -2,6 +2,9 @@
 
 
 #include "MixingTableComponent.h"
+#include "MutantCharacter.h"
+#include "MutagenBase.h"
+#include "CompoundBase.h"
 
 // Sets default values for this component's properties
 UMixingTableComponent::UMixingTableComponent()
@@ -11,6 +14,26 @@ UMixingTableComponent::UMixingTableComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
+}
+
+TSubclassOf<AMutantCharacter> UMixingTableComponent::Mix(TSubclassOf<UMutagenBase> MutagenClass, TArray<TSubclassOf<UCompoundBase>> Ingredients, bool &isValid)
+{
+	TSubclassOf<AMutantCharacter> Result = AMutantCharacter::StaticClass();
+
+	isValid = false;
+
+	for (auto Element : MutagenClass.GetDefaultObject()->RequiredIngredients)
+	{
+		if (Ingredients.Find(Element) == INDEX_NONE)
+		{
+			return Result;
+		}
+	}
+	Result = MutagenClass.GetDefaultObject()->MutantClass;
+
+	isValid = true;
+	return Result;
+
 }
 
 

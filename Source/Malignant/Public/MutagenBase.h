@@ -9,9 +9,18 @@
 /**
  * 
  */
+class UCompoundBase;
+class AMutantCharacter;
+
 UCLASS(Blueprintable)
 class MALIGNANT_API UMutagenBase : public UItemBase
 {
 	GENERATED_BODY()
+public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		TArray<TSubclassOf<UCompoundBase>> RequiredIngredients;
 	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		TSubclassOf<AMutantCharacter> MutantClass;
 };

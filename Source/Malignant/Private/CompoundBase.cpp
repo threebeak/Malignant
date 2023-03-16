@@ -3,3 +3,6 @@
 
 #include "CompoundBase.h"
 
+UCompoundBase::UCompoundBase()
+{
+}
