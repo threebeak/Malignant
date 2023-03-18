@@ -26,6 +26,10 @@ APlayerCharacter::APlayerCharacter()
 
 }
 
+void APlayerCharacter::EquipItem_Implementation(AItemPickupBase* NewItem)
+{
+}
+
 // Called when the game starts or when spawned
 void APlayerCharacter::BeginPlay()
 {
@@ -104,6 +108,7 @@ void APlayerCharacter::LookUp(float AxisValue)
 	NewRotation.Pitch = FMath::Clamp(NewRotation.Pitch + AxisValue, -89.0, 89.0);
 	MainCamera->SetRelativeRotation(NewRotation);
 
+	OnCameraLookUp.Broadcast(AxisValue);
 }
 
 void APlayerCharacter::LookRight(float AxisValue)

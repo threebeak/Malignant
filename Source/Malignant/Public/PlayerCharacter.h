@@ -8,10 +8,14 @@
 #include "Camera/CameraComponent.h"
 #include "Interactable.h"
 #include "Engine/World.h"
+#include "Delegates/Delegate.h"
 #include "PlayerCharacter.generated.h"
 
 
+class AItemPickupBase;
 
+UDELEGATE(BlueprintAuthorityOnly)
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCameraLookUp, float, AxisValue);
 
 UCLASS()
 class MALIGNANT_API APlayerCharacter : public ACharacter
@@ -22,6 +26,8 @@ class MALIGNANT_API APlayerCharacter : public ACharacter
 	/* methods */
 public:
 
+	UPROPERTY(BlueprintAssignable)
+	FOnCameraLookUp OnCameraLookUp;
 	// Sets default values for this pawn's properties
 	APlayerCharacter();
 
@@ -50,16 +56,26 @@ public:
 	virtual void HeavyAttack();
 
 
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+		void EquipItem(AItemPickupBase* NewItem);
+
+	void EquipItem_Implementation(AItemPickupBase* NewItem);
+
+
 	/* members */
 public:
 
 	UPROPERTY(EditAnywhere)
 		UStaticMeshComponent* StaticMesh;
+	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 		UCameraComponent* MainCamera;
 
 	//Object currently being interacted with or viewed and interactable
 	IInteractable* InteractingObject;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		AItemPickupBase* EquippedItem;
 
 	//InteractingObject's assigned widget to be displayed Ex. "Press E to Interact"
 	UPROPERTY()
