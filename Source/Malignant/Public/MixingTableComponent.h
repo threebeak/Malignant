@@ -9,30 +9,8 @@
 class UMutagenBase;
 class UCompoundBase;
 class AMutantCharacter;
-
-USTRUCT(BlueprintType, Blueprintable)
-struct FMutagens
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TSubclassOf<UMutagenBase> Mutagen;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int32 Amount;
-};
-
-USTRUCT(BlueprintType, Blueprintable)
-struct FCompounds
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TSubclassOf<UCompoundBase> Compound;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int32 Amount;
-};
+struct FMutagens;
+struct FCompounds;
 
 
 UCLASS( Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -42,11 +20,22 @@ class MALIGNANT_API UMixingTableComponent : public UActorComponent
 
 public:	
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray <FMutagens> AvailableMutagens;
+	//True if a potion has already been created
+	UPROPERTY(BlueprintReadWrite)
+		bool bPotionIsMade;
 
+	//True if the potion has been made and not drank
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray <FCompounds> AvailableCompounds;
+		bool bPotionIsAvailable;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	void GetAvailableMutagens(TArray<FMutagens>& AvailableMutagens);
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	void GetAvailableCompounds(TArray<FCompounds>& AvailableCompounds);
+
+	UPROPERTY(BlueprintReadOnly)
+	TSubclassOf<AMutantCharacter> MutantClass;
 
 	// Sets default values for this component's properties
 	UMixingTableComponent();

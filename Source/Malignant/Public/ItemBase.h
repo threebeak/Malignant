@@ -18,5 +18,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		UTexture* ItemIcon;
+
 	
 };

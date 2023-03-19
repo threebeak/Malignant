@@ -5,6 +5,7 @@
 #include "MutantCharacter.h"
 #include "MutagenBase.h"
 #include "CompoundBase.h"
+#include "MalignantGameInstanceBase.h"
 
 // Sets default values for this component's properties
 UMixingTableComponent::UMixingTableComponent()
@@ -30,10 +31,28 @@ TSubclassOf<AMutantCharacter> UMixingTableComponent::Mix(TSubclassOf<UMutagenBas
 		}
 	}
 	Result = MutagenClass.GetDefaultObject()->MutantClass;
-
+	MutantClass = Result;
 	isValid = true;
 	return Result;
 
+}
+
+void UMixingTableComponent::GetAvailableMutagens(TArray<FMutagens>& AvailableMutagens)
+{
+	UMalignantGameInstanceBase* MGI = Cast<UMalignantGameInstanceBase>(GetWorld()->GetGameInstance());
+	if (MGI)
+	{
+		AvailableMutagens = MGI->AvailableMutagens;
+	}
+}
+
+void UMixingTableComponent::GetAvailableCompounds(TArray<FCompounds>& AvailableCompounds)
+{
+	UMalignantGameInstanceBase* MGI = Cast<UMalignantGameInstanceBase>(GetWorld()->GetGameInstance());
+	if (MGI)
+	{
+		AvailableCompounds = MGI->AvailableCompounds;
+	}
 }
 
 
