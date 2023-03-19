@@ -8,7 +8,7 @@
 
 AMutantCharacter::AMutantCharacter()
 {
-
+	AutoPossessPlayer = EAutoReceiveInput::Disabled;
 }
 
 void AMutantCharacter::BeginPlay()

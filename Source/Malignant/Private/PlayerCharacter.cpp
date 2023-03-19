@@ -4,6 +4,7 @@
 #include "PlayerCharacter.h"
 #include "Components/CapsuleComponent.h"
 #include "Blueprint/UserWidget.h"
+#include "ItemPickupBase.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
@@ -26,8 +27,13 @@ APlayerCharacter::APlayerCharacter()
 
 }
 
+//Default Implementation if not overridden in Blueprints
 void APlayerCharacter::EquipItem_Implementation(AItemPickupBase* NewItem)
 {
+	EquippedItem = NewItem;
+	FAttachmentTransformRules AttachRules{ EAttachmentRule::SnapToTarget, EAttachmentRule::KeepRelative, EAttachmentRule::KeepRelative, false };
+	NewItem->AttachToComponent(MainCamera, AttachRules);
+
 }
 
 // Called when the game starts or when spawned
